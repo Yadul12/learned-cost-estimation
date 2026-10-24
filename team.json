@@ -1,0 +1,23 @@
+{
+  "name": "B.Tech Final Year Project Group",
+  "department": "Department of Mathematics and Computing",
+  "project_title": "Optimisation of Query Execution Plans via Learned Cost Estimation",
+  "members": [
+    {
+      "name": "Group Member 1",
+      "role": "Query Workload & Shared Iceberg/Parquet Warehouse"
+    },
+    {
+      "name": "Group Member 2",
+      "role": "Cross-Engine Execution (DuckDB & Trino) & 6-Table Store"
+    },
+    {
+      "name": "Group Member 3",
+      "role": "Feature Extraction, Gradient Boosting & Tree-GRU Neural Models"
+    },
+    {
+      "name": "Group Member 4",
+      "role": "Template-Disjoint Evaluation, Ablations & Cardinality Analysis"
+    }
+  ]
+}
