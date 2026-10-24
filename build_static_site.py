@@ -70,6 +70,7 @@ def build_static_site() -> None:
     (DOCS_DIR / "metrics.json").write_text(json.dumps(metrics), encoding="utf-8")
     (DOCS_DIR / "queries.json").write_text(json.dumps(queries_list), encoding="utf-8")
     (DOCS_DIR / "query_details.json").write_text(json.dumps(details_map), encoding="utf-8")
+    shutil.copy2(PROJECT_ROOT / "team.json", DOCS_DIR / "team.json")
 
     # Patch fetch calls in HTML_PAGE so it works seamlessly both on static GitHub Pages and live server
     live_fallback_js = """const res = await fetch('/api/run_live?sql=' + encodeURIComponent(sql)).catch(() => null);
@@ -104,6 +105,9 @@ def build_static_site() -> None:
         } else { var d = await res.json(); }"""
 
     static_html = HTML_PAGE.replace(
+        "const tRes = await fetch('/api/team');",
+        "const tRes = await fetch('./team.json');",
+    ).replace(
         "const res = await fetch('/api/metrics');",
         "const res = await fetch('./metrics.json');",
     ).replace(

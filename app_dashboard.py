@@ -192,6 +192,7 @@ HTML_PAGE = """<!DOCTYPE html>
         <p class="text-xs text-slate-400">Cross-Engine Transfer Study (DuckDB → Trino over Apache Iceberg/Parquet) • Template-Disjoint Evaluation</p>
       </div>
       <div class="flex items-center gap-3">
+        <button onclick="openTeamModal()" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-500/30">👥 Group Members & Collaborators</button>
         <span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">● 6-Table Store Live</span>
         <span id="meta-badge" class="px-3 py-1.5 rounded-full text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">Seed: 42</span>
       </div>
@@ -322,12 +323,39 @@ GROUP BY c.c_mktsegment, l.l_shipmode</textarea>
     <div id="panel-figures" class="hidden space-y-6">
       <div class="grid md:grid-cols-1 gap-6" id="figures-gallery"></div>
     </div>
+
+    <!-- GROUP COLLABORATORS MODAL -->
+    <div id="team-modal" class="hidden fixed inset-0 bg-slate-950/80 z-50 flex items-center justify-center p-4">
+      <div class="glass rounded-2xl max-w-xl w-full p-6 space-y-4 border border-slate-700">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">B.Tech Final Year Project Group</span>
+            <h3 class="text-lg font-bold text-white">Project Team & Shared Repository Collaboration</h3>
+          </div>
+          <button onclick="closeTeamModal()" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+        </div>
+        <div id="team-members-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+        <div class="bg-slate-900/90 p-3.5 rounded-lg border border-slate-800 text-xs text-slate-300 space-y-1.5">
+          <div class="font-bold text-teal-300">How Collaborators Push to This Common Deployment:</div>
+          <div>1. Add teammate via CLI: <code class="text-amber-300">python manage_collaborators.py add &lt;github_username&gt;</code></div>
+          <div>2. Teammate clones &amp; edits <code class="text-amber-300">team.json</code> or model code and pushes to <code class="text-amber-300">main</code>.</div>
+          <div>3. GitHub Actions CI/CD (<code class="text-amber-300">.github/workflows/deploy.yml</code>) automatically runs <code class="text-amber-300">pytest</code> and updates the live shared deployment!</div>
+        </div>
+      </div>
+    </div>
   </main>
 
   <script>
     let globalMetrics = null;
     let chartPerTemplateInstance = null;
     let chartFeaturesInstance = null;
+
+    function openTeamModal() {
+      document.getElementById('team-modal').classList.remove('hidden');
+    }
+    function closeTeamModal() {
+      document.getElementById('team-modal').classList.add('hidden');
+    }
 
     function switchTab(tab) {
       ['overview', 'live', 'explorer', 'bonus', 'figures'].forEach(t => {
@@ -422,6 +450,19 @@ GROUP BY c.c_mktsegment, l.l_shipmode</textarea>
     }
 
     async function initDashboard() {
+      try {
+        const tRes = await fetch('/api/team');
+        if (tRes.ok) {
+          const teamData = await tRes.json();
+          document.getElementById('team-members-list').innerHTML = (teamData.members || []).map(m => `
+            <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+              <div class="text-sm font-bold text-white">${m.name}</div>
+              <div class="text-xs text-indigo-300 mt-0.5">${m.role}</div>
+            </div>
+          `).join('');
+        }
+      } catch (e) {}
+
       const res = await fetch('/api/metrics');
       globalMetrics = await res.json();
 
@@ -676,6 +717,14 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Length", str(len(raw)))
             self.end_headers()
             self.wfile.write(raw)
+            return
+
+        if path == "/api/team":
+            team_file = PROJECT_ROOT / "team.json"
+            if team_file.exists():
+                self._send_json(json.loads(team_file.read_text(encoding="utf-8")))
+            else:
+                self._send_json({"members": []})
             return
 
         if path == "/api/metrics":
