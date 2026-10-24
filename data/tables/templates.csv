@@ -1,0 +1,25 @@
+template_id,source,n_relations,split_fold,description
+T01,TPC-H-Q1-Var,1,train,Single-table pricing summary report on lineitem with date & quantity filter
+T02,TPC-H-Q6-Var,1,train,Forecasting revenue change single-table scan with correlated discount/quantity
+T03,TPC-H-Orders-Agg,1,train,Orders priority & status distribution filtered by totalprice and orderdate
+T04,TPC-H-Q12-Var,2,train,"2-table join (orders, lineitem) shipping modes and order priority"
+T05,TPC-H-Q14-Var,2,train,"2-table join (lineitem, part) promotion effect by brand and quantity"
+T06,TPC-H-CustOrders,2,train,"2-table join (customer, orders) customer segment spending analysis"
+T07,TPC-H-Q3-Var,3,train,"3-table join (customer, orders, lineitem) shipping priority query"
+T08,TPC-H-PartSuppLine,3,train,"3-table join (part, partsupp, lineitem) supply cost vs extended price"
+T09,TPC-H-SuppNationLine,3,train,"3-table join (supplier, nation, lineitem) supplier nation volume"
+T10,TPC-H-Q10-Var,4,train,"4-table join (customer, orders, lineitem, nation) returned item reporting"
+T11,TPC-H-Q16-Style,4,train,"4-table join (part, partsupp, supplier, nation) supplier-part availability"
+T12,TPC-H-CustRegOrders,4,train,"4-table join (region, nation, customer, orders) regional order volume"
+T13,TPC-H-Q5-Var,6,train,"6-table join (customer, orders, lineitem, supplier, nation, region) local supplier volume"
+T14,TPC-H-Q9-Subset,5,train,"5-table join (part, supplier, lineitem, partsupp, orders) product type profit"
+T15,TPC-H-Q2-Core,5,train,"5-table join (part, partsupp, supplier, nation, region) minimum cost supplier lookup"
+T16,TPC-H-Val-2Join,2,val,"Validation 2-table join (partsupp, supplier) inventory valuation"
+T17,TPC-H-Val-3Join,3,val,"Validation 3-table join (orders, lineitem, part) priority brand fulfillment"
+T18,TPC-H-Val-5Join,5,val,"Validation 5-table join (customer, nation, region, orders, lineitem) regional shipping delay"
+T19,TPC-H-Test-1Scan,1,test,Held-out 1-table scan (lineitem) shipmode & returnflag multi-aggregate
+T20,TPC-H-Test-2Join-Correlated,2,test,"Held-out 2-table join (orders, lineitem) with correlated totalprice & discount filter"
+T21,TPC-H-Test-3Join-CustPart,3,test,"Held-out 3-table join (customer, orders, nation) high-balance customer nations"
+T22,TPC-H-Test-4Join-SupplyChain,4,test,"Held-out 4-table join (supplier, lineitem, orders, customer) cross-segment fulfillment"
+T23,TPC-H-Test-5Join-GlobalTrade,5,test,"Held-out 5-table join (part, lineitem, orders, customer, nation) part demand by nation"
+T24,TPC-H-Test-6Join-FullStar,6,test,"Held-out 6-table join (part, partsupp, supplier, lineitem, orders, nation) complex multi-join"

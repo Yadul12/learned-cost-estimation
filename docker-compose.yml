@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  trino:
+    image: trinodb/trino:latest
+    container_name: learned_cost_trino
+    ports:
+      - "8085:8080"
+    volumes:
+      - ./docker/trino/catalog:/etc/trino/catalog
+      - ./data/warehouse:/data/warehouse
+    environment:
+      - JAVA_TOOL_OPTIONS=-Xmx2G
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/v1/info || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20

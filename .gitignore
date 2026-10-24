@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+pipeline_run.log
+data/warehouse/duckdb_tpch.duckdb
+data/warehouse/duckdb_tpch.duckdb.wal
