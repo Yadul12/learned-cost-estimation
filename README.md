@@ -4,6 +4,9 @@
 
 B.Tech Final Year Project — Department of Mathematics and Computing
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Yadul12/learned-cost-estimation)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template?template=https://github.com/Yadul12/learned-cost-estimation)
+
 ---
 
 ## 1. Overview & One-Sentence Goal
